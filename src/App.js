@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import Nav from '../src/components/Nav'
-import Table from '../src/components/Table'
+import CustomerTable from '../src/components/CustomerTable'
+import MerchantTable from './components/MerchantTable'
+import ItemsTable from './components/ItemsTable'
+import InvoiceTable from './components/InvoicesTable'
+import InvoiceItemsTable from './components/InvoiceItemsTable'
+import TransactionsTable from './components/TransactionsTable'
+
+
+
 
 class App extends Component {
   constructor(props) {
@@ -9,6 +17,9 @@ class App extends Component {
       customers: [],
       merchants: [],
       items: [],
+      invoiceItems: [],
+      invoices: [],
+      transactions: [],
       error: "",
     };
   }
@@ -52,13 +63,59 @@ class App extends Component {
       }).catch(err => {
         throw Error(err)
       })
+
+      fetch("https://back-engine.herokuapp.com/api/v1/invoices")
+      .then((response) => {
+        if (!response.ok) {
+          throw Error("There was an error");
+        }
+        return response.json();
+      })
+      .then((allData) => {
+        this.setState({ invoices: allData.data });
+      }).catch(err => {
+        throw Error(err)
+      })
+
+      fetch("https://back-engine.herokuapp.com/api/v1/invoice_items")
+      .then((response) => {
+        if (!response.ok) {
+          throw Error("There was an error");
+        }
+        return response.json();
+      })
+      .then((allData) => {
+        this.setState({ invoiceItems: allData.data });
+      }).catch(err => {
+        throw Error(err)
+      })
+
+      fetch("https://back-engine.herokuapp.com/api/v1/transactions")
+      .then((response) => {
+        if (!response.ok) {
+          throw Error("There was an error");
+        }
+        return response.json();
+      })
+      .then((allData) => {
+        this.setState({ transactions: allData.data });
+      }).catch(err => {
+        throw Error(err)
+      })
   }
 
   render() {
     return (
       <>
         <Nav />
-        {this.state.customers && <Table customers={this.state.customers}/>}
+        {this.state.customers && <CustomerTable customers={this.state.customers}/>}
+        {this.state.merchants && <MerchantTable merchants={this.state.merchants}/>}
+        {this.state.items && <ItemsTable items={this.state.items}/>}
+        {this.state.invoiceItems && <InvoiceItemsTable invoiceItems={this.state.invoiceItems}/>}
+        {this.state.invoices && <InvoiceTable invoices={this.state.invoices}/>}
+        {this.state.transactions && <TransactionsTable transactions={this.state.transactions}/>}
+
+
       </>
     );
   }

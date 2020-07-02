@@ -55,10 +55,9 @@ const headCells = [
     disablePadding: true,
     label: "Select",
   },
-  { id: "First Name", numeric: true, disablePadding: false, label: "First Name" },
-  { id: "Last Name", numeric: true, disablePadding: false, label: "Last Name" },
-  // { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  // { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+  { id: "CustomerId", numeric: true, disablePadding: false, label: "CustomerId" },
+  { id: "Description", numeric: false, disablePadding: false, label: "Description" },
+  { id: 'protein', numeric: true, disablePadding: false, label: 'Affiliated Merchant' },
 ];
 
 function EnhancedTableHead(props) {
@@ -71,7 +70,7 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
   } = props;
-
+  console.log('hi', props)
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -169,7 +168,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Customers
+          invoices
         </Typography>
       )}
 
@@ -219,7 +218,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable(props) {
-
+  console.log(props)
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -236,7 +235,7 @@ export default function EnhancedTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = props.customers.map((n) => n.id);
+      const newSelecteds = props.invoices.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -279,7 +278,7 @@ export default function EnhancedTable(props) {
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, props.customers.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, props.invoices.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -293,20 +292,21 @@ export default function EnhancedTable(props) {
             aria-label="enhanced table"
           >
             <EnhancedTableHead
-              customers={props.customers}
+              invoices={props.invoices}
               classes={classes}
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={props.customers.length}
+              rowCount={props.invoices.length}
             />
             <TableBody>
-              {stableSort(props.customers, getComparator(order, orderBy))
+              {stableSort(props.invoices, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
+                  console.log(row)
+                  const isinvoiceselected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -314,14 +314,14 @@ export default function EnhancedTable(props) {
                       hover
                       onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
-                      aria-checked={isItemSelected}
+                      aria-checked={isinvoiceselected}
                       tabIndex={-1}
                       key={row.name}
-                      selected={isItemSelected}
+                      selected={isinvoiceselected}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
-                          checked={isItemSelected}
+                          checked={isinvoiceselected}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       </TableCell>
@@ -333,8 +333,10 @@ export default function EnhancedTable(props) {
                       >
                         {/* {row.attributes.id} */}
                       </TableCell>
-                      <TableCell align="right">{row.attributes.first_name}</TableCell>
-                      <TableCell align="right">{row.attributes.last_name}</TableCell>
+                      <TableCell align="right">{row.attributes.customer_id}</TableCell>
+                      <TableCell align="right">{row.attributes.status}</TableCell>
+                      <TableCell align="right">{row.attributes.merchant_id}</TableCell>
+
                     </TableRow>
                   );
                 })}
@@ -349,7 +351,7 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={props.customers.length}
+          count={props.invoices.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
