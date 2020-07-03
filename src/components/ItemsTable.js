@@ -56,7 +56,7 @@ const headCells = [
     label: "Select",
   },
   { id: "First Name", numeric: true, disablePadding: false, label: "Name" },
-  { id: "Description", numeric: false, disablePadding: false, label: "Description" },
+  { id: "Description", numeric: true, disablePadding: false, label: "Description" },
   { id: 'carbs', numeric: true, disablePadding: false, label: 'Price' },
   { id: 'protein', numeric: true, disablePadding: false, label: 'Affiliated Merchant' },
 ];
@@ -71,7 +71,6 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
   } = props;
-  console.log('hi', props)
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -219,7 +218,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable(props) {
-  console.log(props)
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -306,7 +304,6 @@ export default function EnhancedTable(props) {
               {stableSort(props.items, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  console.log(row)
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 

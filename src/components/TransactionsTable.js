@@ -21,7 +21,6 @@ import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -55,10 +54,14 @@ const headCells = [
     disablePadding: true,
     label: "Select",
   },
-  { id: "InvoiceId", numeric: true, disablePadding: false, label: "invoiceId" },
-  { id: "Quantity", numeric: false, disablePadding: false, label: "Quantity" },
-  { id: 'Price', numeric: true, disablePadding: false, label: 'Price' },
-  // { id: 'ItemId', numeric: true, disablePadding: false, label: 'ItemId' },
+  {
+    id: "InvoiceId",
+    numeric: true,
+    disablePadding: false,
+    label: "credit card number",
+  },
+  { id: "Quantity", numeric: true, disablePadding: false, label: "result" },
+  { id: "Price", numeric: true, disablePadding: false, label: "invoiceId" },
 ];
 
 function EnhancedTableHead(props) {
@@ -71,7 +74,6 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
   } = props;
-  console.log('hi', props)
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -219,7 +221,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable(props) {
-  console.log(props)
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -279,7 +280,8 @@ export default function EnhancedTable(props) {
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, props.transactions.length - page * rowsPerPage);
+    rowsPerPage -
+    Math.min(rowsPerPage, props.transactions.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -306,7 +308,6 @@ export default function EnhancedTable(props) {
               {stableSort(props.transactions, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  console.log(row)
                   const istransactionselected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -331,20 +332,21 @@ export default function EnhancedTable(props) {
                         id={labelId}
                         scope="row"
                         padding="none"
-                      >
-                        {/* {row.attributes.id} */}
+                      ></TableCell>
+                      <TableCell align="right">
+                        {row.attributes.credit_card_number}
                       </TableCell>
-                      <TableCell align="right">{row.attributes.credit_card_number}</TableCell>
-                      <TableCell align="left">{row.attributes.result}</TableCell>
-                      {/* <TableCell align="right">{row.attributes}</TableCell> */}
-                      <TableCell align="right">{row.attributes.invoice_id}</TableCell>
-
+                      <TableCell align="right">
+                        {row.attributes.result}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.attributes.invoice_id}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
-              {console.log("la", props.transactions) && emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={4} />
                 </TableRow>
               )}
             </TableBody>

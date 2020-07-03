@@ -50,15 +50,14 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "name",
+    id: "select",
     numeric: false,
     disablePadding: true,
     label: "Select",
   },
-  { id: "First Name", numeric: true, disablePadding: false, label: "First Name" },
-  { id: "Last Name", numeric: true, disablePadding: false, label: "Last Name" },
-  // { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  // { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+  { id: "firstName", numeric: false, disablePadding: false, label: "First Name" },
+  { id: "lastName", numeric: false, disablePadding: false, label: "Last Name" },
+
 ];
 
 function EnhancedTableHead(props) {
@@ -306,7 +305,6 @@ export default function EnhancedTable(props) {
               {stableSort(props.customers, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  console.log(row)
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -334,8 +332,8 @@ export default function EnhancedTable(props) {
                       >
                         {/* {row.attributes.id} */}
                       </TableCell>
-                      <TableCell align="right">{row.attributes.first_name}</TableCell>
-                      <TableCell align="right">{row.attributes.last_name}</TableCell>
+                      <TableCell align="left">{row.attributes.first_name}</TableCell>
+                      <TableCell align="left">{row.attributes.last_name}</TableCell>
                     </TableRow>
                   );
                 })}

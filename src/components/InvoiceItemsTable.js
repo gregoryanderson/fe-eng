@@ -56,7 +56,7 @@ const headCells = [
     label: "Select",
   },
   { id: "InvoiceId", numeric: true, disablePadding: false, label: "invoiceId" },
-  { id: "Quantity", numeric: false, disablePadding: false, label: "Quantity" },
+  { id: "Quantity", numeric: true, disablePadding: false, label: "Quantity" },
   { id: 'Price', numeric: true, disablePadding: false, label: 'Price' },
   { id: 'ItemId', numeric: true, disablePadding: false, label: 'ItemId' },
 ];
@@ -71,7 +71,6 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
   } = props;
-  console.log('hi', props)
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -219,7 +218,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable(props) {
-  console.log(props)
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -306,7 +304,6 @@ export default function EnhancedTable(props) {
               {stableSort(props.invoiceItems, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  console.log(row)
                   const isinvoiceItemselected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -335,7 +332,7 @@ export default function EnhancedTable(props) {
                         {/* {row.attributes.id} */}
                       </TableCell>
                       <TableCell align="right">{row.attributes.invoice_id}</TableCell>
-                      <TableCell align="left">{row.attributes.quantity}</TableCell>
+                      <TableCell align="right">{row.attributes.quantity}</TableCell>
                       <TableCell align="right">{row.attributes.unit_price}</TableCell>
                       <TableCell align="right">{row.attributes.item_id}</TableCell>
 
