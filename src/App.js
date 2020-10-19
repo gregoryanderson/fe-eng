@@ -346,20 +346,20 @@ class App extends Component {
       .catch((err) => {
         throw Error(err);
       });
-    // fetch("https://back-engine.herokuapp.com/api/v1/invoice_items")
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw Error("There was an error");
-    //     }
-    //     return response.json();
-    //   })
-    //   .then((allData) => {
-    //     this.setState({ invoiceItems: allData.data });
-    //     this.checkComplete()
-    //   })
-    //   .catch((err) => {
-    //     throw Error(err);
-    //   });
+    fetch("https://back-engine.herokuapp.com/api/v1/invoice_items")
+      .then((response) => {
+        if (!response.ok) {
+          throw Error("There was an error");
+        }
+        return response.json();
+      })
+      .then((allData) => {
+        this.setState({ invoiceItems: allData.data });
+        this.checkComplete()
+      })
+      .catch((err) => {
+        throw Error(err);
+      });
     // fetch("https://back-engine.herokuapp.com/api/v1/transactions")
     //   .then((response) => {
     //     if (!response.ok) {

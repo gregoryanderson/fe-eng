@@ -58,7 +58,10 @@ const headCells = [
   },
   { id: "firstName", numeric: false, disablePadding: false, label: "First Name" },
   { id: "lastName", numeric: false, disablePadding: false, label: "Last Name" },
-
+  { id: "userName", numeric: false, disablePadding: false, label: "User Name" },
+  { id: "email", numeric: false, disablePadding: false, label: "Email" },
+  { id: "cardNumber", numeric: false, disablePadding: false, label: "Card Number" },
+  { id: "location", numeric: false, disablePadding: false, label: "Location" },
 ];
 
 function EnhancedTableHead(props) {
