@@ -19,6 +19,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CheckIcon from "@material-ui/icons/CheckSharp";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 
@@ -176,6 +177,7 @@ const EnhancedTableToolbar = (props) => {
         <Tooltip title="Delete">
           <IconButton aria-label="delete">
             <DeleteIcon />
+            <CheckIcon />
           </IconButton>
         </Tooltip>
       ) : (

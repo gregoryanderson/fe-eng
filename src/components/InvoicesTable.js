@@ -224,7 +224,6 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -278,6 +277,17 @@ export default function EnhancedTable(props) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, props.invoices.length - page * rowsPerPage);
 
+  const findCustomer = (row, customers) => {
+    let correctCustomer = customers.find(customer => customer.id === row.id)
+    let name = correctCustomer.attributes.first_name + " " + correctCustomer.attributes.last_name
+    return name
+  }
+
+  // const findMerchant = (row, merchants) => {
+  //   let correctMerchant = merchants.find(merchant => merchant.id === row.id)
+  //   return correctMerchant.attributes.name 
+  // }
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -330,9 +340,9 @@ export default function EnhancedTable(props) {
                       >
                         {/* {row.attributes.id} */}
                       </TableCell>
-                      <TableCell align="right">{row.attributes.customer_id}</TableCell>
+                      <TableCell align="right">{findCustomer(row, props.customers)}</TableCell>
                       <TableCell align="right">{row.attributes.status}</TableCell>
-                      <TableCell align="right">{row.attributes.merchant_id}</TableCell>
+                      {/* <TableCell align="right">{findMerchant(row, props.merchants)}</TableCell> */}
 
                     </TableRow>
                   );

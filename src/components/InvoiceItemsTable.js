@@ -21,7 +21,6 @@ import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -57,8 +56,8 @@ const headCells = [
   },
   { id: "InvoiceId", numeric: true, disablePadding: false, label: "invoiceId" },
   { id: "Quantity", numeric: true, disablePadding: false, label: "Quantity" },
-  { id: 'Price', numeric: true, disablePadding: false, label: 'Price' },
-  { id: 'ItemId', numeric: true, disablePadding: false, label: 'ItemId' },
+  { id: "Price", numeric: true, disablePadding: false, label: "Price" },
+  { id: "ItemId", numeric: true, disablePadding: false, label: "ItemId" },
 ];
 
 function EnhancedTableHead(props) {
@@ -277,7 +276,18 @@ export default function EnhancedTable(props) {
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, props.invoiceItems.length - page * rowsPerPage);
+    rowsPerPage -
+    Math.min(rowsPerPage, props.invoiceItems.length - page * rowsPerPage);
+
+  const findInvoice = (row, invoices) => {
+    let correctInvoice = invoices.find((invoice) => invoice.id === row.id);
+    return correctInvoice.attributes.name;
+  };
+
+  const findItem = (row, items) => {
+    let correctItem = items.find((item) => item.id === row.id);
+    return correctItem.attributes.name;
+  };
 
   return (
     <div className={classes.root}>
@@ -331,11 +341,18 @@ export default function EnhancedTable(props) {
                       >
                         {/* {row.attributes.id} */}
                       </TableCell>
-                      <TableCell align="right">{row.attributes.invoice_id}</TableCell>
-                      <TableCell align="right">{row.attributes.quantity}</TableCell>
-                      <TableCell align="right">{row.attributes.unit_price}</TableCell>
-                      <TableCell align="right">{row.attributes.item_id}</TableCell>
-
+                      <TableCell align="right">
+                        {findInvoice(row, props.invoices)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.attributes.quantity}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.attributes.unit_price}
+                      </TableCell>
+                      <TableCell align="right">
+                        {findItem(row, props.items)}
+                      </TableCell>
                     </TableRow>
                   );
                 })}

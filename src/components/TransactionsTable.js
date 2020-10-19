@@ -60,8 +60,15 @@ const headCells = [
     disablePadding: false,
     label: "credit card number",
   },
-  { id: "Quantity", numeric: true, disablePadding: false, label: "result" },
+  { id: "Result", numeric: true, disablePadding: false, label: "Result" },
+  { id: "Customer", numeric: true, disablePadding: false, label: "Customer" },
+  { id: "Merchant", numeric: true, disablePadding: false, label: "Merchant" },
   { id: "Price", numeric: true, disablePadding: false, label: "invoiceId" },
+  { id: "Items", numeric: true, disablePadding: false, label: "Items" },
+  { id: "Quantity", numeric: true, disablePadding: false, label: "Quantity" },
+  { id: "Cost", numeric: true, disablePadding: false, label: "Cost" },
+
+
 ];
 
 function EnhancedTableHead(props) {
@@ -171,7 +178,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          transactions
+          Transactions
         </Typography>
       )}
 
@@ -279,6 +286,25 @@ export default function EnhancedTable(props) {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
+  const findCustomer = (customers, invoices, row) => {
+    let invoice = invoices.find((invoice) => invoice.id === row.id);
+    let customer = customers.find((customer) => customer.id === invoice.attributes.customer_id);
+    return customer.attributes.first_name + " " + customer.attributes.last_name
+  };
+
+  const findMerchant = (merchants, invoices, row) => {
+    let invoice = invoices.find((invoice) => invoice.id === row.id);
+    let merchant = merchants.find((merchant) => merchant.id === invoice.attributes.merchant_id);
+    return merchant.attributes.name
+  };
+
+  const findItems = (items, invoices, row) => {
+    // let invoice = invoices.find((invoice) => invoice.id === row.id);
+    // let item = items.find((item) => item.id === invoice.attributes.item_id);
+    // return item.attributes.name
+  };
+
+
   const emptyRows =
     rowsPerPage -
     Math.min(rowsPerPage, props.transactions.length - page * rowsPerPage);
@@ -340,14 +366,23 @@ export default function EnhancedTable(props) {
                         {row.attributes.result}
                       </TableCell>
                       <TableCell align="right">
+                        {findCustomer(props.customers, props.invoices, row)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {findMerchant(props.merchants, props.invoices, row)}
+                      </TableCell>
+                      <TableCell align="right">
                         {row.attributes.invoice_id}
+                      </TableCell>
+                      <TableCell align="right">
+                        {findItems(props.items, props.invoices, row)}
                       </TableCell>
                     </TableRow>
                   );
                 })}
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={4} />
-                </TableRow>
+              <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableCell colSpan={4} />
+              </TableRow>
               )}
             </TableBody>
           </Table>

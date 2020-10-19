@@ -279,6 +279,11 @@ export default function EnhancedTable(props) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, props.items.length - page * rowsPerPage);
 
+  const findMerchant = (row, merchants) => {
+    let correctMerchant = merchants.find(merchant => merchant.id === row.id)
+    return correctMerchant.attributes.name 
+  }
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -334,7 +339,7 @@ export default function EnhancedTable(props) {
                       <TableCell align="right">{row.attributes.name}</TableCell>
                       <TableCell align="right">{row.attributes.description}</TableCell>
                       <TableCell align="right">{row.attributes.unit_price}</TableCell>
-                      <TableCell align="right">{row.attributes.merchant_id}</TableCell>
+                      <TableCell align="right">{findMerchant(row, props.merchants)}</TableCell>
 
                     </TableRow>
                   );
