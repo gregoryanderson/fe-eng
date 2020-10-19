@@ -72,6 +72,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
+  console.log('fuck', { props })
   const {
     classes,
     onSelectAllClick,
@@ -140,13 +141,13 @@ const useToolbarStyles = makeStyles((theme) => ({
   highlight:
     theme.palette.type === "light"
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
+        color: theme.palette.secondary.main,
+        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+      }
       : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark,
+      },
   title: {
     flex: "1 1 100%",
   },
@@ -172,15 +173,15 @@ const EnhancedTableToolbar = (props) => {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography
-          className={classes.title}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Transactions
-        </Typography>
-      )}
+          <Typography
+            className={classes.title}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
+            Transactions
+          </Typography>
+        )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
@@ -189,12 +190,12 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+          <Tooltip title="Filter list">
+            <IconButton aria-label="filter list">
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        )}
     </Toolbar>
   );
 };
@@ -288,22 +289,15 @@ export default function EnhancedTable(props) {
 
   const findCustomer = (customers, invoices, row) => {
     let invoice = invoices.find((invoice) => invoice.id === row.id);
-    let customer = customers.find((customer) => customer.id === invoice.attributes.customer_id);
+    let customer = customers.find((customer) => customer.id == invoice.attributes.customer_id);
     return customer.attributes.first_name + " " + customer.attributes.last_name
   };
 
   const findMerchant = (merchants, invoices, row) => {
     let invoice = invoices.find((invoice) => invoice.id === row.id);
-    let merchant = merchants.find((merchant) => merchant.id === invoice.attributes.merchant_id);
+    let merchant = merchants.find((merchant) => merchant.id == invoice.attributes.merchant_id);
     return merchant.attributes.name
   };
-
-  const findItems = (items, invoices, row) => {
-    // let invoice = invoices.find((invoice) => invoice.id === row.id);
-    // let item = items.find((item) => item.id === invoice.attributes.item_id);
-    // return item.attributes.name
-  };
-
 
   const emptyRows =
     rowsPerPage -
@@ -374,16 +368,12 @@ export default function EnhancedTable(props) {
                       <TableCell align="right">
                         {row.attributes.invoice_id}
                       </TableCell>
-                      <TableCell align="right">
-                        {findItems(props.items, props.invoices, row)}
-                      </TableCell>
                     </TableRow>
                   );
                 })}
               <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                 <TableCell colSpan={4} />
               </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
